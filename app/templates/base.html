@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Meant4 Face Detector</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
+            h1 {
+                color: #333;
+                margin-top: 20px;
+            }
+            p {
+                color: #555;
+            }
+            a {
+                color: #007BFF;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            .centered-left {
+                text-align: left;
+                width: 90%;
+                max-width: 600px;
+                margin: 10px auto;
+            }
+            #messages {
+                list-style-type: none;
+                padding: 0;
+                margin: 20px auto;
+                width: 80%;
+                max-width: 600px;
+            }
+            #messages li {
+                background-color: #fff;
+                margin: 10px 0;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                text-align: left;
+                word-wrap: break-word;
+            }
+            #status {
+                font-size: 16px;
+                font-weight: bold;
+                padding: 6px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            .ok {
+                color: white;
+                background-color: green;
+            }
+            .closed {
+                color: white;
+                background-color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Meant4 Face Detector</h1>
+        <h3>WebSocket Connection Status:
+            <div id="status" class="closed">CLOSED</div>
+        </h3>
+        <p class="centered-left">
+            Welcome! To get started, please upload an image using
+            <a href="/docs#/default/create_image_image_post" target="_blank">our API documentation</a>.
+        </p>
+        <p class="centered-left">
+            Below, you can view a list of processed images with detected faces.
+        </p>
+        <ul id='messages'>
+        </ul>
+        <script>
+            const serverUrl = `ws://{{ url.netloc }}/faces`;
+            const statusDiv = document.getElementById('status');
+            const socket = new WebSocket(serverUrl);
+
+            socket.onmessage = function(event) {
+                var messages = document.getElementById('messages')
+                var message = document.createElement('li')
+
+                // Create a link element and set the URL as its href and text
+                var link = document.createElement('a');
+                link.href = event.data;
+                link.textContent = event.data;
+                link.target = "_blank"; // Open link in a new tab
+
+                message.appendChild(link)
+                messages.appendChild(message)
+            };
+            socket.addEventListener('open', () => {
+                statusDiv.textContent = "OK";
+                statusDiv.className = "ok";
+            });
+            socket.addEventListener('close', () => {
+                statusDiv.textContent = "CLOSED";
+                statusDiv.className = "closed";
+            });
+            socket.addEventListener('error', (error) => {
+                console.error('WebSocket error:', error);
+                statusDiv.textContent = "CLOSED";
+                statusDiv.className = "closed";
+            });
+        </script>
+    </body>
+</html>
