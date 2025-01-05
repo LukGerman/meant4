@@ -1,0 +1,33 @@
+[tool.poetry]
+package-mode = false
+name = "Meant4 Face Detector"
+description = "Real-Time Face Detection and Image Generation Server"
+license = "MIT"
+authors =[
+    "Łukasz German",
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+fastapi = {extras = ["standard"], version = "^0.115.6"}
+numpy = "^2.2.1"
+opencv-python-headless = "^4.10.0.84"
+pydantic-settings = "^2.7.1"
+python-multipart = "^0.0.20"
+websockets = "^14.1"
+jinja2 = "^3.1.5"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.14.1"
+pytest = "^8.3.4"
+pytest-asyncio = "^0.25.1"
+ruff = "^0.8.5"
+opencv-python = "^4.10.0.84"
+
+[tool.mypy]
+plugins = ['pydantic.mypy']
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
