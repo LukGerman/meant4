@@ -1,6 +1,6 @@
 # Meant4 Face Detector  
 
-This project implements a recruitment process task described in [task.md](docs/task.md).  
+This project implements a recruitment process task.
 
 ## Getting Started  
 
